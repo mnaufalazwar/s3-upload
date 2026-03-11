@@ -9,6 +9,15 @@ infra/terraform.tfstate.backup
 # Terraform variables (may contain sensitive values)
 infra/terraform.tfvars
 
+# Terraform state (contains secrets, never commit)
+*.tfstate
+*.tfstate.backup
+infra/.terraform/
+infra/.terraform.lock.hcl
+
+# Your actual variable values (contains passwords)
+infra/terraform.tfvars
+
 # ========== DEPENDENCIES ==========
 # Python virtual environment
 backend/.venv/
