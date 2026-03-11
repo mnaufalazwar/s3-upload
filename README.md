@@ -132,10 +132,10 @@ ECR_URL=$(cd ../infra && terraform output -raw ecr_repository_url)
 aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin $ECR_URL
 
 # Build the image
-docker build -t $ECR_URL:latest .
+docker build -t ${ECR_URL}:latest .
 
 # Push to ECR
-docker push $ECR_URL:latest
+docker push ${ECR_URL}:latest
 ```
 
 After pushing, update the ECS service to pull the new image:
