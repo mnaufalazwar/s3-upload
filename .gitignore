@@ -1,0 +1,40 @@
+# ========== SECRETS (NEVER COMMIT) ==========
+# AWS credentials
+backend/.env
+
+# Terraform state contains secrets (access keys, resource IDs)
+infra/terraform.tfstate
+infra/terraform.tfstate.backup
+
+# Terraform variables (may contain sensitive values)
+infra/terraform.tfvars
+
+# ========== DEPENDENCIES ==========
+# Python virtual environment
+backend/.venv/
+
+# Node.js dependencies
+frontend/node_modules/
+
+# ========== TERRAFORM ==========
+# Downloaded provider plugins (~200 MB)
+infra/.terraform/
+
+# ========== IDE ==========
+# PyCharm
+backend/.idea/
+.idea/
+
+# VSCode
+.vscode/
+
+# macOS
+.DS_Store
+
+# ========== BUILD / CACHE ==========
+# Python
+__pycache__/
+*.pyc
+
+# Vite
+frontend/dist/
