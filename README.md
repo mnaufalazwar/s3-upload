@@ -122,7 +122,8 @@ terraform destroy
 
 ## How to build and push to ECR
 
-```cd backend
+```
+cd backend
 
 # Get your ECR repo URL
 ECR_URL=$(cd ../infra && terraform output -raw ecr_repository_url)
@@ -138,7 +139,8 @@ docker push $ECR_URL:latest
 ```
 
 After pushing, update the ECS service to pull the new image:
-```aws ecs update-service \
+```
+aws ecs update-service \
   --cluster capstone-tutorial-cluster \
   --service capstone-tutorial-backend-service \
   --force-new-deployment
