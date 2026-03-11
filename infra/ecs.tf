@@ -53,13 +53,6 @@ resource "aws_ecs_task_definition" "backend" {
       }
     }
 
-    healthCheck = {
-      command     = ["CMD-SHELL", "wget -qO- http://localhost:8000/api/health || exit 1"]
-      interval    = 30
-      timeout     = 5
-      retries     = 3
-      startPeriod = 120
-    }
   }])
 
   tags = { Name = "${var.project_name}-backend" }
