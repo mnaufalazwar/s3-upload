@@ -1,5 +1,5 @@
 import uuid
-from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi import FastAPI, File, UploadFile, HTTPException, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 
 from s3_client import s3, BUCKET
@@ -13,11 +13,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/health")
+router = APIRouter(prefix="/api")
+
+
+@router.get("/health")
 def health():
     return {"status": "ok"}
 
-@app.post("/upload")
+
+@router.post("/upload")
 async def upload_file(file: UploadFile = File(...)):
     """
     Accept a file via multipart/form-data and stream it to S3
@@ -51,7 +55,7 @@ async def upload_file(file: UploadFile = File(...)):
     }
 
 
-@app.get("/files")
+@router.get("/files")
 def list_files():
     """List all uploaded files in the bucket"""
     try:
@@ -70,7 +74,7 @@ def list_files():
     return {"files": files}
 
 
-@app.get("/presign/{s3_key:path}")
+@router.get("/presign/{s3_key:path}")
 def get_presigned_url(s3_key: str, content_type: str = "application/octet-stream"):
     """
     Generate a presigned URL for direct browser-to-S3 upload.
@@ -96,3 +100,6 @@ def get_presigned_url(s3_key: str, content_type: str = "application/octet-stream
     )
 
     return {"presigned_url": url, "s3_key": s3_key, "content_type": content_type}
+
+
+app.include_router(router)

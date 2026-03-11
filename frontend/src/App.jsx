@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const API = "http://localhost:8000";
+const API = import.meta.env.DEV ? "http://localhost:8000/api" : "/api";
 
 export default function App(){
   const [file, setFile] = useState(null);
