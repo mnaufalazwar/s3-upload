@@ -120,6 +120,26 @@ cd infra
 terraform destroy
 ```
 
-## Related
+## How to build and push to ECR
 
-This tutorial is part of the [Capstone CS20](https://github.com/...) project — an Intelligent Tester Quality Assessment & Coaching Recommendation Engine. See `tutorial-s3-upload.md` in the capstone repo for the full step-by-step guide with detailed explanations.
+```cd backend
+
+# Get your ECR repo URL
+ECR_URL=$(cd ../infra && terraform output -raw ecr_repository_url)
+
+# Login to ECR
+aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin $ECR_URL
+
+# Build the image
+docker build -t $ECR_URL:latest .
+
+# Push to ECR
+docker push $ECR_URL:latest
+```
+
+After pushing, update the ECS service to pull the new image:
+```aws ecs update-service \
+  --cluster capstone-tutorial-cluster \
+  --service capstone-tutorial-backend-service \
+  --force-new-deployment
+```
