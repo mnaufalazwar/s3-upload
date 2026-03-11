@@ -145,3 +145,9 @@ aws ecs update-service \
   --service capstone-tutorial-backend-service \
   --force-new-deployment
 ```
+
+## How to deploy FE
+```
+npm run build
+aws s3 sync dist/ s3://ccc-frontend-<YOUR_UNIQUE_SUFFIX>/ --delete
+```
